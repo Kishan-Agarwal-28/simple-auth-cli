@@ -9,6 +9,7 @@ import { dirname } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+
 function mergeDependencies(userPackageJson, myPackageJson) {
   if (!userPackageJson.dependencies) {
     userPackageJson.dependencies = myPackageJson.dependencies;
@@ -28,7 +29,7 @@ async function copyFiles(srcDir, destDir) {
     }
 
     const files = await fs.promises.readdir(srcDir);
-
+console.log(files);
     for (const file of files) {
       if (file === 'package.json') {
         continue;
@@ -38,8 +39,11 @@ async function copyFiles(srcDir, destDir) {
       const destFilePath = path.join(destDir, file);
 
       const stat = await fs.promises.stat(srcFilePath);
-      if (stat.isFile()) {
+      console.log(stat.isFile());
+       if (stat.isFile()) {
         await fs.promises.copyFile(srcFilePath, destFilePath);
+      } else if (stat.isDirectory()) {
+        await copyFiles(srcFilePath, destFilePath); 
       }
     }
   } catch (err) {
@@ -47,52 +51,41 @@ async function copyFiles(srcDir, destDir) {
     process.exit(1);
   }
 }
+async function updatePackageJson(srcDir, destDir) {
+  const myPackageJsonPath = path.join(srcDir, '..', 'package.json'); 
 
-function updatePackageJson(srcDir, destDir) {
-  const myPackageJsonPath = path.join(srcDir, 'package.json');
   const userPackageJsonPath = path.join(destDir, 'package.json');
 
-  fs.promises.readFile(myPackageJsonPath, 'utf-8')
-    .then((myPackageData) => {
-      const myPackageJson = JSON.parse(myPackageData);
+  try {
+  
+    const myPackageData = await fs.promises.readFile(myPackageJsonPath, 'utf-8');
+    const myPackageJson = JSON.parse(myPackageData);
 
-      return fs.promises.readFile(userPackageJsonPath, 'utf-8')
-        .then((userPackageData) => {
-          const userPackageJson = JSON.parse(userPackageData);
+    let userPackageJson = {};
+    
+    try {
+      const userPackageData = await fs.promises.readFile(userPackageJsonPath, 'utf-8');
+      userPackageJson = JSON.parse(userPackageData);
+    } catch (err) {
+      console.log("User package.json not found. Creating a new one...");
+    }
 
-          const updatedPackageJson = mergeDependencies(userPackageJson, myPackageJson);
+    const updatedPackageJson = mergeDependencies(userPackageJson, myPackageJson);
 
-          fs.promises.writeFile(userPackageJsonPath, JSON.stringify(updatedPackageJson, null, 2), 'utf-8')
-            .then(() => {
-              console.log('User package.json updated with merged dependencies.');
-            })
-            .catch((err) => {
-              console.error('Error writing to user package.json:', err);
-              process.exit(1);
-            });
-        })
-        .catch(() => {
-          fs.promises.copyFile(myPackageJsonPath, userPackageJsonPath)
-            .then(() => {
-              console.log('My package.json copied to the user\'s directory.');
-            })
-            .catch((err) => {
-              console.error('Error copying package.json:', err);
-              process.exit(1);
-            });
-        });
-    })
-    .catch((err) => {
-      console.error('Error reading my package.json:', err);
-      process.exit(1);
-    });
+    await fs.promises.writeFile(userPackageJsonPath, JSON.stringify(updatedPackageJson, null, 2), 'utf-8');
+    console.log('package.json updated successfully!');
+
+  } catch (err) {
+    console.error('Error handling package.json:', err);
+    process.exit(1);
+  }
 }
 
 (async () => {
   const srcDirectory = path.resolve(__dirname, 'auth-cli');
   const destDirectory = process.cwd();
 
-  console.log(`Copying files from ${srcDirectory} to ${destDirectory}...`);
+  console.log(`Copying files to ${destDirectory}...`);
 
   await copyFiles(srcDirectory, destDirectory);
 
