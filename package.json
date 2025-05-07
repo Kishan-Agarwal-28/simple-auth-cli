@@ -1,0 +1,46 @@
+{
+  "name": "simple-auth-cli",
+  "version": "1.0.0",
+  "main": "control.js",
+  "type": "module",
+  "bin": {
+    "simple-auth-cli": "./control.js"
+  },
+  "keywords": [
+    "authentication",
+    "oauth",
+    "jwt",
+    "2fa",
+    "webauthn",
+    "security",
+    "cli",
+    "nodejs",
+    "express",
+    "mongodb",
+    "oauth2",
+    "google-oauth",
+    "github-oauth",
+    "spotify-oauth",
+    "user-management",
+    "auth-system"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kishan-Agarwal-28/simple-auth-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kishan-Agarwal-28/simple-auth-cli/issues"
+  },
+  "homepage": "https://github.com/Kishan-Agarwal-28/simple-auth-cli#readme",
+  "author": "Kishan Agarwal",
+  "license": "MIT",
+  "description": "An implementation of authentication system supporting multiple providers ready to be used with a single command.",
+  "scripts": {
+   "start":"node control.js"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "inquirer": "^12.6.0",
+    "ora": "^8.2.0"
+  }
+}
