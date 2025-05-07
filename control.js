@@ -49,24 +49,24 @@ const spinner = ora("Setting up your auth system...").start();
         if (answers.language === "JavaScript") {
             console.log("\nSetting up an auth system for you in JavaScript...\n");
             if (answers.oauth && !answers.webauthn) {
-                await fcpy("./js/oauth", "./");
+                await fcpy("./js/oauth", process.cwd());
             }
             if (answers.webauthn) {
-                await fcpy("./js/web-authn", "./");
+                await fcpy("./js/web-authn", process.cwd());
             }
             if (!answers.oauth && !answers.webauthn) {
-                await fcpy("./js/simple", "./");
+                await fcpy("./js/simple", process.cwd());
             }
         } else {
             console.log("\nSetting up an auth system for you in TypeScript...\n");
             if (answers.oauth && !answers.webauthn) {
-                await fcpy("./ts/oauth", "./");
+                await fcpy("./ts/oauth", process.cwd());
             }
             if (answers.webauthn) {
-                await fcpy("./ts/web-authn", "./");
+                await fcpy("./ts/web-authn", process.cwd());
             }
             if (!answers.oauth && !answers.webauthn) {
-                await fcpy("./ts/simple", "./");
+                await fcpy("./ts/simple", process.cwd());
             }
         }
 setTimeout(() => {

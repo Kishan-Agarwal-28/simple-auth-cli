@@ -36,7 +36,7 @@
   "license": "MIT",
   "description": "An implementation of authentication system supporting multiple providers ready to be used with a single command.",
   "scripts": {
-   "start":"node control.js"
+    "start": "node control.js"
   },
   "dependencies": {
     "chalk": "^5.4.1",
