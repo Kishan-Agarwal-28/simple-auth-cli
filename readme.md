@@ -53,7 +53,7 @@ A robust authentication system implementation supporting multiple providers that
 ## Installation
 
 ```bash
-npm install simple-auth-cli
+npx simple-auth-cli
 ```
 
 ## Quick Start

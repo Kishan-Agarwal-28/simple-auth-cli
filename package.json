@@ -1,6 +1,6 @@
 {
   "name": "simple-auth-cli",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "control.js",
   "type": "module",
   "bin": {

@@ -1,15 +1,15 @@
-import asyncHandler from '../utils/asyncHandler.ts';
-import {apiError} from '../utils/apiError.ts';
-import { User } from '../models/user.model.ts';
-import { apiResponse } from '../utils/apiResponse.ts';
-import { sendEmail } from '../helpers/sendEmail.ts';
+import asyncHandler from '../utils/asyncHandler.js';
+import {apiError} from '../utils/apiError.js';
+import { User } from '../models/user.model.js';
+import { apiResponse } from '../utils/apiResponse.js';
+import { sendEmail } from '../helpers/sendEmail.js';
 import { nanoid } from 'nanoid';
-import { APPURL, VERIFICATIONTOKENEXPIRYTIME ,APPNAME} from '../constants.ts';
+import { APPURL, VERIFICATIONTOKENEXPIRYTIME ,APPNAME} from '../constants.js';
 import bcrypt from 'bcrypt';
-import { registerUserRedirectUri } from '../helpers/oAuth.helper.ts';
+import { registerUserRedirectUri } from '../helpers/oAuth.helper.js';
 import { AuthorizationCode } from 'simple-oauth2';
-import { GoogleClient, GithubClient, SpotifyClient ,FacebookClient,MicrosoftClient } from '../oauth.secrets.ts';
-import { deleteOnCloudinary, uploadOnCloudinary } from '../services/cloudinary.service.ts';
+import { GoogleClient, GithubClient, SpotifyClient ,FacebookClient,MicrosoftClient } from '../oauth.secrets.js';
+import { deleteOnCloudinary, uploadOnCloudinary } from '../services/cloudinary.service.js';
 import { generateRegistrationOptions,verifyRegistrationResponse, generateAuthenticationOptions,verifyAuthenticationResponse, WebAuthnCredential } from "@simplewebauthn/server";
 // import crypto from 'node:crypto';
 
