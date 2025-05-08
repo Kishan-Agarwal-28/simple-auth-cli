@@ -3,7 +3,9 @@ import inquirer from "inquirer";
 import fcpy from "./fcpy.js";
 import chalk from "chalk";
 import ora from "ora";
-
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 inquirer.prompt([
     {
         type: "select",
@@ -49,24 +51,24 @@ const spinner = ora("Setting up your auth system...").start();
         if (answers.language === "JavaScript") {
             console.log("\nSetting up an auth system for you in JavaScript...\n");
             if (answers.oauth && !answers.webauthn) {
-                await fcpy("./js/oauth", process.cwd());
+                await fcpy(path.resolve(__dirname, 'js', 'oauth'), process.cwd());
             }
             if (answers.webauthn) {
-                await fcpy("./js/web-authn", process.cwd());
+                await fcpy(path.resolve(__dirname, 'js', 'web-authn'), process.cwd());
             }
             if (!answers.oauth && !answers.webauthn) {
-                await fcpy("./js/simple", process.cwd());
+                await fcpy(path.resolve(__dirname, 'js', 'simple'), process.cwd());
             }
         } else {
             console.log("\nSetting up an auth system for you in TypeScript...\n");
             if (answers.oauth && !answers.webauthn) {
-                await fcpy("./ts/oauth", process.cwd());
+                await fcpy(path.resolve(__dirname, 'ts', 'oauth'), process.cwd());
             }
             if (answers.webauthn) {
-                await fcpy("./ts/web-authn", process.cwd());
+                await fcpy(path.resolve(__dirname, 'ts', 'web-authn'), process.cwd());
             }
             if (!answers.oauth && !answers.webauthn) {
-                await fcpy("./ts/simple", process.cwd());
+                await fcpy(path.resolve(__dirname, 'ts', 'simple'), process.cwd());
             }
         }
 setTimeout(() => {
