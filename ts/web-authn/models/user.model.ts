@@ -66,7 +66,6 @@ const userSchema: Schema<IUser> = new Schema(
           sub: {
             type: String,
             default: null,
-            unique: true,
           },
         },
       ],

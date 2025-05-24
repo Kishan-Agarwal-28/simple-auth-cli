@@ -11,7 +11,6 @@ import { deleteOnCloudinary, uploadOnCloudinary } from '../services/cloudinary.s
 const cookieOptions={
     httpOnly:true,
     secure:true,
-    sameSite:'strict'
 }
 
 const generateAccessTokenAndRefreshToken =async(user) => {

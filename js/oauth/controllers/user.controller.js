@@ -15,7 +15,6 @@ import { deleteOnCloudinary, uploadOnCloudinary } from '../services/cloudinary.s
 const cookieOptions={
     httpOnly:true,
     secure:true,
-    sameSite:'strict'
 }
 const generateAccessTokenAndRefreshToken =async(user) => {
     const accessToken=await user.generateAccessToken();
@@ -134,8 +133,8 @@ const logoutUser = asyncHandler(async(req, res) => {
       
         return res
         .status(200)
-        .clearCookie("accessToken", options)
-        .clearCookie("refreshToken", options)
+        .clearCookie("accessToken", cookieOptions)
+        .clearCookie("refreshToken", cookieOptions)
         .json(new apiResponse(200, {}, "User logged Out"))
 })
 const generateNewTokens = asyncHandler(async(req, res) => {
@@ -222,7 +221,7 @@ const resendVerificationToken=asyncHandler(async(req,res)=>{
     if(!user){
         throw new apiError(404,"User not found")
     }
-    if(verificationToken==undefined){
+    if(user.verificationToken==undefined){
         throw new apiError(400,"cannot find verification token to resend")
     }
     if(user.isVerified){

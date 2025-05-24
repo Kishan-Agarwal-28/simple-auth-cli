@@ -6,18 +6,7 @@ import ora from "ora";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import path from "path";
-import fs from "fs";
-
-// Check if being run as an installed package
-if (process.env.npm_config_global || process.env.npm_lifecycle_event === 'install' ||process.env.npm_lifecycle_event==='i') {
-    console.log(chalk.yellow("\n⚠️  Note: This package is meant to be used with npx."));
-    console.log(chalk.cyan("Please use:"));
-    console.log(chalk.green("\nnpx simple-auth-cli\n"));
-    process.exit(0);
-}
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
-
 inquirer.prompt([
     {
         type: "select",
@@ -54,27 +43,8 @@ inquirer.prompt([
         console.log(chalk.green("⚠️  Note: WebAuthn requires OAuth. OAuth will be included automatically."));
         answers.oauth = true; 
     }
-    const currentVersion=fs.readFileSync(path.join(__dirname, 'package.json'), 'utf8');
-    const currentVersionJson = JSON.parse(currentVersion);
 
-    const authConfig = {
-        language: answers.language,
-        features: {
-            oauth: answers.oauth,
-            webauthn: answers.webauthn
-        },
-        attribution:{
-            package:"simple-auth-cli",
-            version:currentVersionJson.version,
-            license:"MIT",
-            author:"Cosmology is fun!"
-        },
-        timestamp: new Date().toISOString(),
-        template: answers.oauth && answers.webauthn ? 'web-authn' :
-                 answers.oauth ? 'oauth' : 'simple'
-    };
-fs.writeFileSync('.auth', JSON.stringify(authConfig, null, 2), 'utf8');
-
+  // Inside an async function like this:
 const spinner = ora("Setting up your auth system...").start();
 
 (async () => {
@@ -102,16 +72,10 @@ const spinner = ora("Setting up your auth system...").start();
                 await fcpy(path.resolve(__dirname, 'ts', 'simple'), process.cwd());
             }
         }
-
-        spinner.text = "Installing dependencies...";
-        const { execSync } = await import('child_process');
-        try {
-            execSync('npm install', { stdio: 'inherit' });
-            spinner.succeed("Setup complete! Dependencies installed successfully.");
-        } catch (error) {
-            spinner.warn("Files copied but npm install failed. Please run 'npm install' manually.");
-            console.error("npm install error:", error);
-        }
+setTimeout(() => {
+    
+    spinner.succeed("Setup complete!");
+}, 1000); 
     } catch (err) {
         spinner.fail("Setup failed.");
         console.error(err);

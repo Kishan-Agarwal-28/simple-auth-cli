@@ -32,7 +32,6 @@ const userSchema = new Schema({
                 sub:{
                     type: String,
                     default:null,
-                    unique: true
                 }
             }
         ]
